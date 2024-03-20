@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "product-admin-app-2bb57": {
+      "hosting": {
+        "app": [
+          "product-admin-app-2bb57"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "product-admin-app-2bb57"
+  }
+}
