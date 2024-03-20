@@ -2,7 +2,13 @@
 
 <ion-content>
   <div class="d-flex-center">
-    <form [formGroup]="form" class="auth-form">
+    <form
+      [formGroup]="form"
+      class="auth-form"
+      (ngSubmit)="submit()"
+      (keypress.enter)="submit()"
+    >
+      <app-logo></app-logo>
       <app-custom-input
         icon="mail-outline"
         autocomplete="email"
@@ -29,6 +35,10 @@
         label="Contraseña"
       ></app-custom-input>
 
+      <p class="ion-text-end" routerLink="forgot-password">
+        ¿Te has olvidado tu contraseña?
+      </p>
+
       <div
         class="validators"
         *ngIf="form.controls.password.errors &&  form.controls.password.touched"
@@ -42,12 +52,25 @@
 
       <ion-button
         expand="block"
-        mode="iod"
+        mode="ios"
         class="submit"
         type="submit"
         [disabled]="form.invalid"
       >
-        Click me
+        Ingresar
+        <ion-icon slot="end" name="log-in-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button
+        class="ion-margin-top"
+        expand="block"
+        mode="ios"
+        type="submit"
+        fill="outline"
+        routerLink="sign-up"
+      >
+        Registrate
+        <ion-icon slot="end" name="person-add-outline"></ion-icon>
       </ion-button>
     </form>
   </div>

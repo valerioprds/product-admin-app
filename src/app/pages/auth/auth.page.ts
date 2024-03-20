@@ -16,4 +16,8 @@ export class AuthPage implements OnInit {
   ngOnInit() {
     console.log('AuthPage');
   }
+
+  submit() {
+    console.log(this.form.value)
+  }
 }
