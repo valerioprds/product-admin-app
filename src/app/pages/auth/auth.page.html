@@ -9,6 +9,8 @@
       (keypress.enter)="submit()"
     >
       <app-logo></app-logo>
+
+      <!-- email input  -->
       <app-custom-input
         icon="mail-outline"
         autocomplete="email"
@@ -17,6 +19,7 @@
         label="Correo"
       ></app-custom-input>
 
+      <!-- email validators  -->
       <div
         class="validators"
         *ngIf="form.controls.email.errors &&  form.controls.email.touched"
@@ -28,6 +31,7 @@
           Ingrese un correo valido
         </div>
       </div>
+      <!-- password input -->
       <app-custom-input
         icon="lock-closed-outline"
         [control]="form.controls.password"
