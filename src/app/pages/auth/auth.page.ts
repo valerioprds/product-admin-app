@@ -19,7 +19,7 @@ export class AuthPage {
   utilsSvc = inject(UtilsService);
 
   async submit() {
-    if (this.form.value) {
+    if (this.form.valid) {
       const loading = await this.utilsSvc.loading();
       await loading.present();
 

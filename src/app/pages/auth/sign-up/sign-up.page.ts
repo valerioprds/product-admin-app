@@ -24,7 +24,7 @@ export class SignUpPage implements OnInit {
   }
 
   async submit() {
-    if (this.form.value) {
+    if (this.form.valid) {
       const loading = await this.utilsSvc.loading();
       await loading.present();
 
@@ -54,7 +54,7 @@ export class SignUpPage implements OnInit {
   }
 
   async setUserInfo(uid: string) {
-    if (this.form.value) {
+    if (this.form.valid) {
       const loading = await this.utilsSvc.loading();
       await loading.present();
 
