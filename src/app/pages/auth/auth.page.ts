@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-auth',
@@ -15,15 +16,26 @@ export class AuthPage implements OnInit {
   });
 
   firebaseSvc = inject(FirebaseService);
+  utilsSvc = inject(UtilsService);
+
   ngOnInit() {
     console.log('AuthPage');
   }
 
-  submit() {
+  async submit() {
     if (this.form.value) {
+      const loading = await this.utilsSvc.loading();
+      await loading.present();
+
       this.firebaseSvc
         .signin(this.form.value as User)
-        .then((res) => console.log(res));
+        .then((res) => console.log(res))
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          loading.dismiss();
+        });
     }
   } /* es una peticion asyncrona porque hay then que es una peticion
   que devuelve una promesa y tarda un pelin.
