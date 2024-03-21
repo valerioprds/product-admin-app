@@ -9,7 +9,7 @@ import {
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 /* importaciones para la base de datos */
-import { getFirestore, setDoc, doc } from '@angular/fire/firestore';
+import { getFirestore, setDoc, doc, getDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class FirebaseService {
   //================== autenticacion ==================
 
   // ======== Acceder ========
-  signin(user: User) {
+  signIn(user: User) {
     return signInWithEmailAndPassword(getAuth(), user.email, user.password);
   }
 
@@ -39,5 +39,11 @@ export class FirebaseService {
   /* funcion para guardar datos del usuario */
   setDocument(path: string, data: any) {
     return setDoc(doc(getFirestore(), path), data);
+  }
+
+  /* funcion para obtener datos del usuario */
+
+  async getDocument(path: string) {
+    return (await getDoc(doc(getFirestore(), path))).data();
   }
 }
