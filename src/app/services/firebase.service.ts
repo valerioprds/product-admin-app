@@ -21,6 +21,10 @@ export class FirebaseService {
 
   //================== autenticacion ==================
 
+  getAuth() {
+    return getAuth();
+  }
+
   // ======== Acceder ========
   signIn(user: User) {
     return signInWithEmailAndPassword(getAuth(), user.email, user.password);
