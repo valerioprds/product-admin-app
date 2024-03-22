@@ -22,6 +22,7 @@ export class HomePage {
   addUpdateProduct() {
     this.utilSvc.presentModal({
       component: AddUpdateProductComponent,
+      cssClass: 'add-update-modal'
     });
   }
 }
