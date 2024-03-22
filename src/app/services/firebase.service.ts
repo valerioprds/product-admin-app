@@ -11,6 +11,7 @@ import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 /* importaciones para la base de datos */
 import { getFirestore, setDoc, doc, getDoc } from '@angular/fire/firestore';
+import { UtilsService } from './utils.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ import { getFirestore, setDoc, doc, getDoc } from '@angular/fire/firestore';
 export class FirebaseService {
   auth = inject(AngularFireAuth);
   firestore = inject(AngularFirestore);
+  utilSvc = inject(UtilsService);
 
   //================== autenticacion ==================
 
@@ -44,6 +46,14 @@ export class FirebaseService {
 
   sendRecoveryEmail(email: string) {
     return sendPasswordResetEmail(getAuth(), email);
+  }
+
+  // ======== cerrar sesion  ========
+
+  signOut() {
+    getAuth().signOut();
+    localStorage.removeItem('user');
+    this.utilSvc.routerLink('/auth');
   }
 
   // ========== base de datos =========
