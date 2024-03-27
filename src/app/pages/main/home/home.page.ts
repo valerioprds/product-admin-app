@@ -4,7 +4,7 @@ import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
-import { orderBy } from 'firebase/firestore';
+import { orderBy, where } from 'firebase/firestore';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -15,7 +15,7 @@ export class HomePage {
   utilsSvc = inject(UtilsService);
 
   products: Product[] = [];
-  loading : boolean = false
+  loading: boolean = false;
 
   // ===== Cerrar Sesion =====
   /* signOut() {
@@ -31,18 +31,27 @@ export class HomePage {
     this.getProducts();
   }
 
+  doRefresh(event) {
+    setTimeout(() => {
+      this.getProducts();
+      event.target.complete();
+    }, 1000);
+  }
+
   /* obtener productos */
 
   getProducts() {
     let path = `users/${this.user().uid}/products`;
-    this.loading = true
+    this.loading = true;
 
-    let query = (orderBy('soldUnits', 'desc'))
+    let query = [
+      orderBy('soldUnits', 'desc') /* where('soldUnits', '>', 30) */,
+    ];
     let sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
       next: (res: any) => {
         console.log(res);
         this.products = res;
-        this.loading= false
+        this.loading = false;
         sub.unsubscribe();
       },
     });
@@ -65,7 +74,7 @@ export class HomePage {
   async confirmDeleteProduct(product: Product) {
     this.utilsSvc.presentAlert({
       header: 'Eliminar Producto',
-      mode:'ios',
+      mode: 'ios',
       message: '¿Seguro?',
       buttons: [
         {
