@@ -3,11 +3,21 @@
   <ion-list>
     <ion-item-sliding class="product-item" *ngFor="let p of products">
       <ion-item>
-        <ion-avatar>
+        <ion-avatar slot="start">
           <img [src]="p.image" />
         </ion-avatar>
         <ion-label>
           <div class="name">{{p.name}}</div>
+          <div class="data">
+            <strong>Precio: </strong> {{p.price | currency : 'USD'}} <br />
+            <strong>Unidades Vendidas: </strong> {{p.soldUnits}}
+          </div>
+          <!-- multiplicar precio por unidades vendidas -->
+          <ion-chip color="primary" mode="ios" outline="true">
+            <ion-label
+              >Ganancia: {{p.price * p.soldUnits| currency : 'USD'}}
+            </ion-label>
+          </ion-chip>
         </ion-label>
       </ion-item>
 
