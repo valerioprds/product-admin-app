@@ -12,7 +12,7 @@ import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-
 })
 export class HomePage {
   firebaseSvc = inject(FirebaseService);
-  utilSvc = inject(UtilsService);
+  utilsSvc = inject(UtilsService);
 
   products: Product[] = [];
 
@@ -22,7 +22,7 @@ export class HomePage {
   } */
 
   user(): User {
-    return this.utilSvc.getFromLocalStorage('user');
+    return this.utilsSvc.getFromLocalStorage('user');
   }
 
   /* sirve para ejecutar funcion cada vez que usuario entra a la pagina  */
@@ -46,12 +46,51 @@ export class HomePage {
   // ===== agregar o acutalizar un producto
 
   async addUpdateProduct(product?: Product) {
-    let success = await this.utilSvc.presentModal({
+    let success = await this.utilsSvc.presentModal({
       component: AddUpdateProductComponent,
       cssClass: 'add-update-modal',
       componentProps: { product },
     });
 
     if (success) this.getProducts();
+  }
+
+  /* eliminar Producto */
+  async deleteProduct(product: Product) {
+    let path = `users/${this.user().uid}/products/${product.id}`;
+
+    const loading = await this.utilsSvc.loading();
+    await loading.present();
+
+    let imagePath = await this.firebaseSvc.getFilePath(product.image);
+    await this.firebaseSvc.deleteFile(imagePath);
+
+    this.firebaseSvc
+      .deleteDocument(path)
+      .then(async (res) => {
+        console.log('respuesta desde updateProduct ', res);
+
+        this.products = this.products.filter((p) => p.id !== product.id); // devolver la lista de productos pero si el producto que le estoy pasando especificamente
+        this.utilsSvc.presentToast({
+          message: 'Producto eliminado exitosamente',
+          color: 'success',
+          duration: 500,
+          position: 'middle',
+          icon: 'checkmark-circle-outline',
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        this.utilsSvc.presentToast({
+          message: error.message,
+          color: 'primary',
+          duration: 2500,
+          position: 'middle',
+          icon: 'alert-circle-outline',
+        });
+      })
+      .finally(() => {
+        loading.dismiss();
+      });
   }
 }

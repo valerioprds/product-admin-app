@@ -20,6 +20,7 @@ import {
   collectionData,
   query,
   updateDoc,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -28,6 +29,7 @@ import {
   uploadString,
   ref,
   getDownloadURL,
+  deleteObject,
 } from 'firebase/storage';
 
 @Injectable({
@@ -76,23 +78,28 @@ export class FirebaseService {
 
   // ========== base de datos =========
 
-  /* funcion para obtnere documentos de una collecion  */
+  /*  obtnere documentos de una collecion  */
 
   getCollectionData(path: string, collectionQuery?: any) {
     const ref = collection(getFirestore(), path);
     return collectionData(query(ref, collectionQuery), { idField: 'id' });
   }
-  /* funcion para guardar datos del usuario */
+  /*  guardar datos del usuario */
   setDocument(path: string, data: any) {
     return setDoc(doc(getFirestore(), path), data);
   }
 
-  /* funcion para actualizar datos del usuario */
+  /*  actualizar documento del usuario */
   updateDocument(path: string, data: any) {
     return updateDoc(doc(getFirestore(), path), data);
   }
 
-  /* funcion para obtener datos del usuario */
+  /*  eliminar documento del usuario */
+  deleteDocument(path: string) {
+    return deleteDoc(doc(getFirestore(), path));
+  }
+
+  /*  obtener datos del usuario */
 
   async getDocument(path: string) {
     return (await getDoc(doc(getFirestore(), path))).data();
@@ -115,5 +122,11 @@ export class FirebaseService {
   /* obtner ruta imagen con su url */
   async getFilePath(url: string) {
     return ref(getStorage(), url).fullPath;
+  }
+
+  /* eliminar archivos de le storage */
+
+  deleteFile(path: string) {
+    return deleteObject(ref(getStorage(), path));
   }
 }
