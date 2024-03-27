@@ -4,7 +4,7 @@ import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
-
+import { orderBy } from 'firebase/firestore';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -36,7 +36,9 @@ export class HomePage {
   getProducts() {
     let path = `users/${this.user().uid}/products`;
     this.loading = true
-    let sub = this.firebaseSvc.getCollectionData(path).subscribe({
+
+    let query = (orderBy('soldUnits', 'desc'))
+    let sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
       next: (res: any) => {
         console.log(res);
         this.products = res;

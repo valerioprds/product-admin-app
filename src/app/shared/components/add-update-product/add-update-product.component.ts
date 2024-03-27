@@ -30,7 +30,6 @@ export class AddUpdateProductComponent implements OnInit {
     /* cuando modificamos un producto hay que meter los valores de estos
     productos dentro del formulario */
     if (this.product) this.form.setValue(this.product);
-
   }
 
   /* seleccionar o tomar una imagen  */
@@ -46,6 +45,13 @@ export class AddUpdateProductComponent implements OnInit {
       if (this.product) this.updateProduct();
       else this.createProduct();
     }
+  }
+
+  /* convertir valores string a tipo number */
+  setNumberInputs() {
+    let { soldUnits, price } = this.form.controls;
+    if (soldUnits.value) soldUnits.setValue(parseFloat(soldUnits.value));
+    if (price.value) price.setValue(parseFloat(price.value));
   }
 
   /* crear producto */
