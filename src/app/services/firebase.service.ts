@@ -19,6 +19,7 @@ import {
   collection,
   collectionData,
   query,
+  updateDoc,
 } from '@angular/fire/firestore';
 import { UtilsService } from './utils.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -86,6 +87,11 @@ export class FirebaseService {
     return setDoc(doc(getFirestore(), path), data);
   }
 
+  /* funcion para actualizar datos del usuario */
+  updateDocument(path: string, data: any) {
+    return updateDoc(doc(getFirestore(), path), data);
+  }
+
   /* funcion para obtener datos del usuario */
 
   async getDocument(path: string) {
@@ -100,8 +106,14 @@ export class FirebaseService {
 
   /* ======= almacenamiento con storage de firebase ======= */
 
+  /* subir imagen  */
   async uploadImage(path: string, data_url: string) {
     await uploadString(ref(getStorage(), path), data_url, 'data_url');
     return getDownloadURL(ref(getStorage(), path));
+  }
+
+  /* obtner ruta imagen con su url */
+  async getFilePath(url: string) {
+    return ref(getStorage(), url).fullPath;
   }
 }

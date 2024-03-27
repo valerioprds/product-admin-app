@@ -25,7 +25,7 @@ export class HomePage {
     return this.utilSvc.getFromLocalStorage('user');
   }
 
-/* sirve para ejecutar funcion cada vez que usuario entra a la pagina  */
+  /* sirve para ejecutar funcion cada vez que usuario entra a la pagina  */
   ionViewWillEnter() {
     this.getProducts();
   }
@@ -37,7 +37,7 @@ export class HomePage {
     let sub = this.firebaseSvc.getCollectionData(path).subscribe({
       next: (res: any) => {
         console.log(res);
-        this.products = res
+        this.products = res;
         sub.unsubscribe();
       },
     });
@@ -45,10 +45,13 @@ export class HomePage {
 
   // ===== agregar o acutalizar un producto
 
-  addUpdateProduct() {
-    this.utilSvc.presentModal({
+  async addUpdateProduct(product?: Product) {
+    let success = await this.utilSvc.presentModal({
       component: AddUpdateProductComponent,
       cssClass: 'add-update-modal',
+      componentProps: { product },
     });
+
+    if (success) this.getProducts();
   }
 }
