@@ -55,6 +55,27 @@ export class HomePage {
     if (success) this.getProducts();
   }
 
+  /* confirmar la eliminacion producto */
+
+  async confirmDeleteProduct(product: Product) {
+    this.utilsSvc.presentAlert({
+      header: 'Eliminar Producto',
+      mode:'ios',
+      message: '¿Seguro?',
+      buttons: [
+        {
+          text: 'Cancelar',
+        },
+        {
+          text: 'Si, Eliminar',
+          handler: () => {
+            this.deleteProduct(product);
+          },
+        },
+      ],
+    });
+  }
+
   /* eliminar Producto */
   async deleteProduct(product: Product) {
     let path = `users/${this.user().uid}/products/${product.id}`;
