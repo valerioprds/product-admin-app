@@ -37,6 +37,13 @@ export class HomePage {
       event.target.complete();
     }, 1000);
   }
+  /* obtener ganancias */
+  getProfit() {
+    return this.products.reduce(
+      (index, product) => index + product.price * product.soldUnits,
+      0
+    );
+  }
 
   /* obtener productos */
 

@@ -1,8 +1,26 @@
 <app-header title="Inicio"></app-header>
 <ion-content>
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" >
+  <!-- refresher para loadear  -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+
+  <ion-card
+    mode="ios"
+    color="secondary"
+    class="d-flex-center ion-text-center"
+    *ngIf="!loading && products.length"
+  >
+    <div>
+      <h5>{{products.length }}</h5>
+      <p>Productos</p>
+    </div>
+
+    <div>
+      <h5>{{getProfit() | currency: 'USD'}}</h5>
+      <p>Ganancias</p>
+    </div>
+  </ion-card>
   <!-- <><><><> Productos <><><><> -->
   <ion-list *ngIf="!loading">
     <ion-item-sliding class="product-item" *ngFor="let p of products">
