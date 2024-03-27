@@ -31,7 +31,7 @@ export class ForgotPasswordPage {
             position: 'middle',
             icon: 'mail-outline',
           });
-         // this.utilsSvc.routerLink('/auth');
+          // this.utilsSvc.routerLink('/auth');
           //this.form.reset();
         })
         .catch((error) => {
