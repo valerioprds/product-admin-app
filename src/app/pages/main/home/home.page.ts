@@ -17,11 +17,6 @@ export class HomePage {
   products: Product[] = [];
   loading: boolean = false;
 
-  // ===== Cerrar Sesion =====
-  /* signOut() {
-    this.firebaseSvc.signOut();
-  } */
-
   user(): User {
     return this.utilsSvc.getFromLocalStorage('user');
   }
