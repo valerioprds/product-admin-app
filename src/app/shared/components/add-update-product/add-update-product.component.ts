@@ -33,7 +33,6 @@ export class AddUpdateProductComponent implements OnInit {
   }
 
   /* seleccionar o tomar una imagen  */
-
   async takeImage() {
     const dataUrl = (await this.utilsSvc.takePicture('Imagen del producto'))
       .dataUrl;
