@@ -1,8 +1,19 @@
 <ion-menu contentId="menu-content" menuId="menu-content" side="start">
   <app-header title="Menú"></app-header>
+
   <ion-content class="ion-text-center">
-    <ion-icon class="avatar-icon" name="person-circle-outline"></ion-icon>
+    <ion-avatar>
+      <img *ngIf="user()?.image" [src]="user()?.image" />
+
+      <ion-icon
+        *ngIf="!user()?.image"
+        class="empty-icon"
+        name="person-circle-outline"
+      ></ion-icon>
+    </ion-avatar>
+
     <h4>{{user().name}}</h4>
+
     <ion-menu-toggle auto-hide="false" *ngFor="let p of pages">
       <ion-item
         [ngClass]="{'active': currentPath === p.url}"
@@ -15,6 +26,7 @@
       </ion-item>
     </ion-menu-toggle>
   </ion-content>
+
   <ion-footer class="ion-no-border safe-p-bottom">
     <ion-menu-toggle auto-hide="false">
       <ion-item (click)="signOut()" lines="none">
